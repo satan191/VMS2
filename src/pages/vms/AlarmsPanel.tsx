@@ -1,8 +1,7 @@
 import { useState } from 'react'
-import { AlertCircle, AlertTriangle, Bell, Check, Filter, Search, X } from 'lucide-react'
+import { AlertCircle, AlertTriangle, Bell, Check, Filter, X } from 'lucide-react'
 import { mockAlarms, mockCameras } from '@/data/mockData'
 import { AlarmEvent } from '@/types'
-import { cn } from '@/utils/cn'
 
 /**
  * VMS 告警管理面板

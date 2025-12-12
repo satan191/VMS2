@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Filter, Search, User as UserIcon, Smartphone, Check, X, FileText } from 'lucide-react'
+import { Filter, User as UserIcon, Smartphone, Check, X, FileText } from 'lucide-react'
 import { mockUsers, mockUserApps } from '@/data/mockData'
-import { User, UserApp } from '@/types'
+import { User } from '@/types'
 import { cn } from '@/utils/cn'
 
 /**

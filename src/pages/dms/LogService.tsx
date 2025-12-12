@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Search, Download, Filter, AlertCircle, Info, AlertTriangle, User, Monitor, Server } from 'lucide-react'
+import { Filter, AlertCircle, Info, AlertTriangle, User, Monitor, Server } from 'lucide-react'
 import { mockLogs } from '@/data/mockData'
 import { LogEntry } from '@/types'
 import { cn } from '@/utils/cn'

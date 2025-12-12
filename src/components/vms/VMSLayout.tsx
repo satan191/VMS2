@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from 'react-router-dom'
-import { Play, AlertTriangle, Settings, LayoutDashboard, FileText, Monitor, Users } from 'lucide-react'
+import { AlertTriangle, Settings, LayoutDashboard, FileText, Monitor, Users } from 'lucide-react'
 import { cn } from '@/utils/cn'
 
 /**

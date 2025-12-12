@@ -261,6 +261,25 @@ npm run preview
 - [ ] 优化性能（虚拟滚动、图片懒加载）
 - [ ] 添加 PWA 支持
 
+## 代码仓库与版本控制
+
+本项目已托管至 GitHub，地址：[https://github.com/satan191/VMS](https://github.com/satan191/VMS)
+
+### 常用命令（给初学者）
+
+如果你修改了代码并想推送到仓库，请在终端执行以下命令：
+
+1. **保存修改**：
+   ```bash
+   git add .
+   git commit -m "描述你修改了什么"
+   ```
+
+2. **推送到 GitHub**：
+   ```bash
+   git push
+   ```
+
 ## 贡献指南
 
 欢迎提交 Issue 和 Pull Request！

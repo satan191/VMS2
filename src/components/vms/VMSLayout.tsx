@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from 'react-router-dom'
-import { Play, AlertTriangle, Settings, LayoutDashboard, FileText, Monitor } from 'lucide-react'
+import { Play, AlertTriangle, Settings, LayoutDashboard, FileText, Monitor, Users } from 'lucide-react'
 import { cn } from '@/utils/cn'
 
 /**
@@ -11,10 +11,10 @@ export default function VMSLayout() {
   const location = useLocation()
 
   const navItems = [
-    { path: '/vms/real-time', label: '实时监控', icon: Monitor },
-    { path: '/vms/playback', label: '回放取证', icon: Play },
+    { path: '/vms/main', label: 'VMS', icon: Monitor },
     { path: '/vms/alarms', label: '告警管理', icon: AlertTriangle },
     { path: '/vms/dashboard', label: '设备管理', icon: LayoutDashboard },
+    { path: '/vms/users', label: '用户管理', icon: Users },
     { path: '/vms/logs', label: '日志', icon: FileText },
     { path: '/vms/settings', label: '系统设置', icon: Settings },
   ]

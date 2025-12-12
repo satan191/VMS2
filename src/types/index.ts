@@ -46,6 +46,32 @@ export interface AlarmEvent {
   thumbnail?: string;
   description: string;
   handled: boolean;
+  pushCount: number; // 新增推送数
+}
+
+/**
+ * 用户类型定义
+ */
+export interface User {
+  id: string;
+  userId: string;
+  loginName: string;
+  name: string;
+  region: string;
+  type: 'admin' | 'operator' | 'viewer';
+  status: 'active' | 'disabled';
+  createTime: Date;
+}
+
+/**
+ * 用户APP类型定义
+ */
+export interface UserApp {
+  id: string;
+  loginName: string;
+  name: string;
+  content: string;
+  type: 'enabled' | 'disabled';
 }
 
 /**

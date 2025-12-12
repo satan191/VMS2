@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import VMSLayout from './components/vms/VMSLayout'
-import RealTimeMonitor from './pages/vms/RealTimeMonitor'
-import PlaybackPanel from './pages/vms/PlaybackPanel'
+import VMSPage from './pages/vms/VMSPage'
+import UserManagement from './pages/dms/UserManagement'
 import AlarmsPanel from './pages/vms/AlarmsPanel'
 import SettingsPanel from './pages/vms/SettingsPanel'
 import Dashboard from './pages/dms/Dashboard'
@@ -16,16 +16,16 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* 默认重定向到 VMS 实时监控 */}
-        <Route path="/" element={<Navigate to="/vms/real-time" replace />} />
+        {/* 默认重定向到 VMS 主页 */}
+        <Route path="/" element={<Navigate to="/vms/main" replace />} />
         
         {/* VMS 客户端路由（整合了DMS功能） */}
         <Route path="/vms" element={<VMSLayout />}>
-          <Route index element={<Navigate to="/vms/real-time" replace />} />
-          <Route path="real-time" element={<RealTimeMonitor />} />
-          <Route path="playback" element={<PlaybackPanel />} />
+          <Route index element={<Navigate to="/vms/main" replace />} />
+          <Route path="main" element={<VMSPage />} />
           <Route path="alarms" element={<AlarmsPanel />} />
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="users" element={<UserManagement />} />
           <Route path="logs" element={<LogService />} />
           <Route path="settings" element={<SettingsPanel />} />
         </Route>

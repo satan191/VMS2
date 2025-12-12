@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import { Activity, AlertCircle, CheckCircle, XCircle, Download, Upload, Plus, Trash2 } from 'lucide-react'
+import { Activity, AlertCircle, CheckCircle, XCircle, Download, Upload, Plus, Trash2, ChevronDown, ChevronRight } from 'lucide-react'
 import { mockCameras } from '@/data/mockData'
 import { Camera } from '@/types'
 import { cn } from '@/utils/cn'
@@ -15,6 +15,8 @@ export default function Dashboard() {
   const [filterStatus, setFilterStatus] = useState<string>('all')
   const [selectedDevices, setSelectedDevices] = useState<Set<string>>(new Set())
   const [showAddDevice, setShowAddDevice] = useState(false)
+  // 记录收起的分组
+  const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set())
 
   const stats = {
     total: mockCameras.length,
@@ -27,6 +29,26 @@ export default function Dashboard() {
     if (filterStatus === 'all') return true
     return camera.status === filterStatus
   })
+
+  // 按分组整理数据
+  const groupedCameras = filteredCameras.reduce((acc, camera) => {
+    const group = camera.group || '未分组'
+    if (!acc[group]) acc[group] = []
+    acc[group].push(camera)
+    return acc
+  }, {} as Record<string, Camera[]>)
+
+  const sortedGroups = Object.keys(groupedCameras).sort()
+
+  const toggleGroup = (group: string) => {
+    const newCollapsed = new Set(collapsedGroups)
+    if (newCollapsed.has(group)) {
+      newCollapsed.delete(group)
+    } else {
+      newCollapsed.add(group)
+    }
+    setCollapsedGroups(newCollapsed)
+  }
 
   const toggleDeviceSelection = (deviceId: string) => {
     const newSelection = new Set(selectedDevices)
@@ -268,56 +290,92 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {filteredCameras.map(camera => (
-                <tr
-                  key={camera.id}
-                  className="border-b border-gray-800 hover:bg-gray-800 transition-colors"
-                >
-                  <td className="px-4 py-3">
-                    <input
-                      type="checkbox"
-                      checked={selectedDevices.has(camera.id)}
-                      onChange={() => toggleDeviceSelection(camera.id)}
-                      className="w-4 h-4"
-                    />
-                  </td>
-                  <td className="px-4 py-3 text-sm text-gray-200 font-medium">{camera.name}</td>
-                  <td className="px-4 py-3 text-sm text-gray-400 font-mono">{camera.ip}</td>
-                  <td className="px-4 py-3 text-sm text-gray-400">
-                    {camera.type === 'ptz' ? 'PTZ云台' : '固定'}
-                  </td>
-                  <td className="px-4 py-3 text-sm text-gray-400">{camera.group}</td>
-                  <td className="px-4 py-3 text-sm text-gray-400">{camera.resolution}</td>
-                  <td className="px-4 py-3 text-sm text-gray-400">{camera.firmware}</td>
-                  <td className="px-4 py-3">
-                    <span className={cn(
-                      'inline-flex items-center px-2 py-1 rounded-full text-xs font-medium',
-                      camera.status === 'online' && 'bg-green-900 text-green-400 border border-green-700',
-                      camera.status === 'offline' && 'bg-gray-800 text-gray-400 border border-gray-700',
-                      camera.status === 'error' && 'bg-red-900 text-red-400 border border-red-700'
-                    )}>
-                      {camera.status === 'online' ? '在线' : camera.status === 'offline' ? '离线' : '故障'}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => setSelectedCamera(camera)}
-                        className="text-blue-400 hover:text-blue-300 text-sm font-medium"
+              {filteredCameras.length === 0 ? (
+                 <tr>
+                   <td colSpan={8} className="px-4 py-8 text-center text-gray-500">
+                     暂无设备数据
+                   </td>
+                 </tr>
+              ) : (
+                sortedGroups.map(group => {
+                  const isCollapsed = collapsedGroups.has(group)
+                  const cameras = groupedCameras[group]
+                  
+                  return (
+                    <React.Fragment key={group}>
+                      {/* 分组标题行 */}
+                      <tr 
+                        className="bg-gray-800 hover:bg-gray-700 cursor-pointer border-b border-gray-700"
+                        onClick={() => toggleGroup(group)}
                       >
-                        详情
-                      </button>
-                      <button
-                        onClick={() => handleDeleteDevice(camera.id, camera.name)}
-                        className="text-red-400 hover:text-red-300 text-sm font-medium flex items-center gap-1"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                        删除
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                        <td colSpan={9} className="px-4 py-2.5 text-gray-200">
+                          <div className="flex items-center gap-2">
+                             {isCollapsed ? <ChevronRight className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
+                             <span className="font-semibold text-sm">{group}</span>
+                             <span className="text-xs text-gray-400 bg-gray-900 px-2 py-0.5 rounded-full border border-gray-700">
+                               {cameras.length}
+                             </span>
+                          </div>
+                        </td>
+                      </tr>
+                      
+                      {/* 设备列表行 */}
+                      {!isCollapsed && cameras.map(camera => (
+                        <tr
+                          key={camera.id}
+                          className="border-b border-gray-800 hover:bg-gray-800 transition-colors bg-gray-900/50"
+                        >
+                          <td className="px-4 py-3">
+                            <input
+                              type="checkbox"
+                              checked={selectedDevices.has(camera.id)}
+                              onChange={(e) => {
+                                e.stopPropagation()
+                                toggleDeviceSelection(camera.id)
+                              }}
+                              className="w-4 h-4 ml-2" // 增加缩进
+                            />
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-200 font-medium">{camera.name}</td>
+                          <td className="px-4 py-3 text-sm text-gray-400 font-mono">{camera.ip}</td>
+                          <td className="px-4 py-3 text-sm text-gray-400">
+                            {camera.type === 'ptz' ? 'PTZ云台' : '固定'}
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-400">{camera.resolution}</td>
+                          <td className="px-4 py-3 text-sm text-gray-400">{camera.firmware}</td>
+                          <td className="px-4 py-3">
+                            <span className={cn(
+                              'inline-flex items-center px-2 py-1 rounded-full text-xs font-medium',
+                              camera.status === 'online' && 'bg-green-900 text-green-400 border border-green-700',
+                              camera.status === 'offline' && 'bg-gray-800 text-gray-400 border border-gray-700',
+                              camera.status === 'error' && 'bg-red-900 text-red-400 border border-red-700'
+                            )}>
+                              {camera.status === 'online' ? '在线' : camera.status === 'offline' ? '离线' : '故障'}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-3">
+                              <button
+                                onClick={() => setSelectedCamera(camera)}
+                                className="text-blue-400 hover:text-blue-300 text-sm font-medium"
+                              >
+                                详情
+                              </button>
+                              <button
+                                onClick={() => handleDeleteDevice(camera.id, camera.name)}
+                                className="text-red-400 hover:text-red-300 text-sm font-medium flex items-center gap-1"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                                删除
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </React.Fragment>
+                  )
+                })
+              )}
             </tbody>
           </table>
         </div>

@@ -1,4 +1,4 @@
-﻿import { Camera, RecordingSegment, AlarmEvent, LogEntry, User, UserApp } from '@/types';
+﻿import { Camera, RecordingSegment, AlarmEvent, LogEntry, User, UserApp, DeviceGroup } from '@/types';
 
 /**
  * 模拟摄像机数据
@@ -611,5 +611,133 @@ export const mockUserApps: UserApp[] = [
     name: '系统监控员',
     content: '服务器监控权限',
     type: 'enabled'
+  }
+];
+
+/**
+ * 模拟设备分组数据 (树形结构)
+ */
+export const mockDeviceGroups: DeviceGroup[] = [
+  {
+    id: 'g-1',
+    name: 'App Test Group',
+    packetLevel: 'Primary',
+    type: 'Group',
+    description: 'Main testing group for applications',
+    sort: 1,
+    functionCount: 5,
+    createTime: '2024-01-01',
+    children: [
+      {
+        id: 'g-1-1',
+        name: 'App Test Group 2',
+        packetLevel: 'Secondary',
+        type: 'Group',
+        description: 'Secondary testing subgroup',
+        sort: 1,
+        functionCount: 3,
+        createTime: '2024-01-05',
+        children: [
+          {
+            id: 'g-1-1-1',
+            name: 'App Test Group 3',
+            packetLevel: 'Tertiary',
+            type: 'Group',
+            description: 'Tertiary testing subgroup',
+            sort: 1,
+            functionCount: 2,
+            createTime: '2024-01-10',
+            children: [
+              {
+                id: 'd-1',
+                name: 'App 1',
+                packetLevel: 'Terminal',
+                type: 'Device',
+                description: 'Application Server 1',
+                sort: 1,
+                functionCount: 1,
+                createTime: '2024-01-15'
+              },
+              {
+                id: 'd-2',
+                name: 'App 2',
+                packetLevel: 'Terminal',
+                type: 'Device',
+                description: 'Application Server 2',
+                sort: 2,
+                functionCount: 1,
+                createTime: '2024-01-15'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'g-1-2',
+        name: 'App Dev Group',
+        packetLevel: 'Secondary',
+        type: 'Group',
+        description: 'Development environment group',
+        sort: 2,
+        functionCount: 4,
+        createTime: '2024-02-01',
+        children: [
+          {
+            id: 'd-3',
+            name: 'Dev Server 1',
+            packetLevel: 'Terminal',
+            type: 'Device',
+            description: 'Development Server',
+            sort: 1,
+            functionCount: 1,
+            createTime: '2024-02-05'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'g-2',
+    name: 'Production Group',
+    packetLevel: 'Primary',
+    type: 'Group',
+    description: 'Production environment devices',
+    sort: 2,
+    functionCount: 10,
+    createTime: '2023-12-01',
+    children: [
+      {
+        id: 'g-2-1',
+        name: 'Database Cluster',
+        packetLevel: 'Secondary',
+        type: 'Group',
+        description: 'Main DB Cluster',
+        sort: 1,
+        functionCount: 2,
+        createTime: '2023-12-05',
+        children: [
+          {
+            id: 'd-4',
+            name: 'DB Master',
+            packetLevel: 'Terminal',
+            type: 'Device',
+            description: 'Master Database Node',
+            sort: 1,
+            functionCount: 1,
+            createTime: '2023-12-10'
+          },
+          {
+            id: 'd-5',
+            name: 'DB Slave',
+            packetLevel: 'Terminal',
+            type: 'Device',
+            description: 'Slave Database Node',
+            sort: 2,
+            functionCount: 1,
+            createTime: '2023-12-10'
+          }
+        ]
+      }
+    ]
   }
 ];

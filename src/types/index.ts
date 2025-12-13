@@ -119,3 +119,18 @@ export type VideoLayout = 1 | 4 | 9 | 16;
  * 视频流类型
  */
 export type StreamType = 'main' | 'sub';
+
+/**
+ * 设备分组类型定义 (树形结构)
+ */
+export interface DeviceGroup {
+  id: string;
+  name: string;
+  packetLevel: string;
+  type: 'Group' | 'Device';
+  description: string;
+  sort: number;
+  functionCount: number;
+  createTime: string;
+  children?: DeviceGroup[];
+}

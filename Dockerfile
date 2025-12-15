@@ -26,8 +26,8 @@ COPY --from=build-stage /app/dist /usr/share/nginx/html
 # 复制自定义 Nginx 配置
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# 暴露 80 端口
-EXPOSE 80
+# 暴露 8080 端口
+EXPOSE 8080
 
 # 启动 Nginx
 CMD ["nginx", "-g", "daemon off;"]

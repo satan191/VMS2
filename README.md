@@ -263,7 +263,7 @@ npm run preview
 
 ## 代码仓库与版本控制
 
-本项目已托管至 GitHub，地址：[https://github.com/satan191/VMS](https://github.com/satan191/VMS)
+本项目已托管至 GitHub，地址：[https://github.com/satan191/VMS2](https://github.com/satan191/VMS2)
 
 ### 常用命令（给初学者）
 
@@ -279,6 +279,25 @@ npm run preview
    ```bash
    git push
    ```
+
+## 部署指南 (Zeabur)
+
+本项目已配置好适配 Zeabur 的部署文件，你可以轻松将其发布到互联网，让所有人访问。
+
+### 步骤 1: 准备代码
+确保你已经将代码提交到了 GitHub 仓库（参考上文“常用命令”）。
+
+### 步骤 2: 在 Zeabur 上创建项目
+1. 访问 [Zeabur 官网](https://zeabur.com) 并注册账号（使用 GitHub 登录即可）。
+2. 点击控制台的 **"Create Project" (创建项目)** 按钮。
+3. 选择 **"Deploy New Service" (部署新服务)** -> **"GitHub"**。
+4. 搜索并选择你的 `VMS` 仓库。
+5. Zeabur 会自动识别项目中的 `Dockerfile` 并开始构建。
+
+### 步骤 3: 访问你的网站
+1. 等待部署完成后，点击 **"Networking" (网络)** 标签页。
+2. 点击 **"Generate Domain" (生成域名)**，Zeabur 会分配一个免费的网址（例如 `your-project.zeabur.app`）。
+3. 点击这个网址，你就可以在中国大陆直接访问你的监控平台了！
 
 ## 贡献指南
 
